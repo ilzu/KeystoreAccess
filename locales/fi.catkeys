@@ -1,0 +1,15 @@
+1	English	application/x-vnd.ilzu-KeyStoreAccess	3177125173
+Creation time	KeyWindow		Luomisaika
+Show	KeyWindow		Näytä
+Hide	KeyWindow		Piilota
+Key	MainWindow		Avain
+Generic	MainWindow		Geneerinen
+Key type	MainWindow		Avaintyyppi
+Password	KeyWindow		Salasana
+Secondary identifier	KeyWindow		Toissijainen tunniste
+Certificate	MainWindow		Sertifikaatti
+Password	MainWindow		Salasana
+Ok	KeyWindow		Hyväksy
+Edit	KeyWindow		Muokkaa
+Cancel	KeyWindow		Peru
+Identifier	KeyWindow		Tunniste

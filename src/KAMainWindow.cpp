@@ -11,12 +11,16 @@
 #include <ColumnListView.h>
 #include <ColumnTypes.h>
 #include <KeyStore.h>
+#include <Catalog.h>
 
 #include <iostream>
 
 #include "KAMainWindow.h"
 #include "KAApplication.h"
 #include "KAKeyWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "MainWindow"
 
 KAMainWindow::KAMainWindow(BRect frame) :BWindow(frame, "KeyStore Access", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS){
 	BMenuBar* menuBar = new BMenuBar("menuBar");
@@ -34,8 +38,6 @@ KAMainWindow::KAMainWindow(BRect frame) :BWindow(frame, "KeyStore Access", B_TIT
 		.AddSplit(B_HORIZONTAL, 0)
 			.SetInsets(-1)
 			.GetSplitView(&split)
-			//.SetInsets(B_USE_WINDOW_INSETS)
-		//.AddGroup(B_HORIZONTAL)
 			.Add(keyringScroll, 0.25f)
 			.Add(keyList, 0.75f)
 		.End()
@@ -55,11 +57,10 @@ KAMainWindow::KAMainWindow(BRect frame) :BWindow(frame, "KeyStore Access", B_TIT
 	keyringList->Select(0);
 	int32 index = keyringList->CurrentSelection();
 	BString keyRing(((BStringItem*)keyringList->ItemAt(index))->Text());
-	//BString keyRing(((BStringItem*)keyringList->ItemAt(keyringList->CurrentSelection()))->Text());
 
 	int em = keyList->StringWidth("M");
-	keyList->AddColumn(new BStringColumn("Key", 20 * em, 10 * em, 50 * em, 0), 0);
-	keyList->AddColumn(new BStringColumn("Key type", 20 * em, 10 * em, 50* em, 0), 1);
+	keyList->AddColumn(new BStringColumn(B_TRANSLATE("Key"), 20 * em, 10 * em, 50 * em, 0), 0);
+	keyList->AddColumn(new BStringColumn(B_TRANSLATE("Key type"), 20 * em, 10 * em, 50* em, 0), 1);
 
 	keyringList->SetTarget(this);
 	keyList->SetTarget(this);
@@ -126,7 +127,7 @@ void KAMainWindow::UpdateKeyList(const char* keyring){
 			break;
 		}
 		if(status != B_OK){
-			std::cout << "Error getting key from keystore server:" << strerror(status) << std::endl;
+			std::cerr << "Error getting key from keystore server:" << strerror(status) << std::endl;
 			return;
 		}
 
@@ -136,16 +137,16 @@ void KAMainWindow::UpdateKeyList(const char* keyring){
 		BStringField* typeField;
 		switch(key.Type()){
 			case BKeyType::B_KEY_TYPE_GENERIC:
-				typeField = new BStringField("Generic");
+				typeField = new BStringField(B_TRANSLATE("Generic"));
 				break;
 			case BKeyType::B_KEY_TYPE_PASSWORD:
-				typeField = new BStringField("Password");
+				typeField = new BStringField(B_TRANSLATE("Password"));
 				break;
 			case BKeyType::B_KEY_TYPE_CERTIFICATE:
-				typeField = new BStringField("Certificate");
+				typeField = new BStringField(B_TRANSLATE("Certificate"));
 				break;
 			default:
-				typeField = new BStringField("Generic");
+				typeField = new BStringField(B_TRANSLATE("Generic"));
 				break;
 		}
 		row->SetField(typeField, 1);

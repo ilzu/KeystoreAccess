@@ -6,9 +6,13 @@
 #include <File.h>
 #include <Path.h>
 #include <FindDirectory.h>
+#include <Catalog.h>
 
 #include "KAApplication.h"
 #include "KAMainWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Application"
 
 KAApplication::KAApplication() : BApplication("application/x-vnd.ilzu-KeyStoreAccess"){
 	LoadSettings();

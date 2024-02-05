@@ -1,0 +1,15 @@
+1	English	application/x-vnd.ilzu-KeyStoreAccess	3177125173
+Creation time	KeyWindow		Creation time
+Show	KeyWindow		Show
+Hide	KeyWindow		Hide
+Key	MainWindow		Key
+Generic	MainWindow		Generic
+Key type	MainWindow		Key type
+Password	KeyWindow		Password
+Secondary identifier	KeyWindow		Secondary identifier
+Certificate	MainWindow		Certificate
+Password	MainWindow		Password
+Ok	KeyWindow		Ok
+Edit	KeyWindow		Edit
+Cancel	KeyWindow		Cancel
+Identifier	KeyWindow		Identifier

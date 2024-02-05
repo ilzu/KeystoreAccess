@@ -7,28 +7,32 @@
 #include <LayoutBuilder.h>
 #include <TextControl.h>
 #include <Button.h>
+#include <Catalog.h>
 
 #include "KAKeyWindow.h"
 
-KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(frame, title, B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS){
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "KeyWindow"
+
+KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(frame, title, B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE){
 	BGroupView* layout = new BGroupView();
 	switch(key->Type()){
 		case B_KEY_TYPE_PASSWORD:
 			{
 				this->key = new BPasswordKey(*(BPasswordKey*)key);
 				((BPasswordKey*)this->key)->SetPassword(((BPasswordKey*)key)->Password());
-				identifier = new BTextControl("Identifier", ((BPasswordKey*)key)->Identifier(), NULL);
+				identifier = new BTextControl(B_TRANSLATE("Identifier"), ((BPasswordKey*)key)->Identifier(), NULL);
 				identifier->SetEnabled(false);
-				secondaryIdentifier = new BTextControl("Secondary identifier", ((BPasswordKey*)key)->SecondaryIdentifier(), NULL);
+				secondaryIdentifier = new BTextControl(B_TRANSLATE("Secondary identifier"), ((BPasswordKey*)key)->SecondaryIdentifier(), NULL);
 				secondaryIdentifier->SetEnabled(false);
-				password = new BTextControl("Password", "", NULL);
+				password = new BTextControl(B_TRANSLATE("Password"), "", NULL);
 				password->TextView()->HideTyping(true);
 				BString pwasterisks;
 				pwasterisks.SetToFormat("%*d", 12, 0);
 				password->SetText(pwasterisks);
 				password->SetEnabled(false);
-				showPwButton = new BButton("Show", new BMessage(SHOW_PASSWORD));
-				creationTime = new BTextControl("Creation time", "", NULL);
+				showPwButton = new BButton(B_TRANSLATE("Show"), new BMessage(SHOW_PASSWORD));
+				creationTime = new BTextControl(B_TRANSLATE("Creation time"), "", NULL);
 				creationTime->SetEnabled(false);
 				BLayoutBuilder::Group<>(layout, B_VERTICAL)
 					.SetInsets(B_USE_WINDOW_INSETS)
@@ -58,15 +62,18 @@ KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(fra
 			break;
 	}
 
-	BButton* edit = new BButton("Edit", new BMessage(MAKE_EDITABLE));
-	BButton* cancel = new BButton("Cancel", new BMessage(B_CANCEL));
+	BButton* edit = new BButton(B_TRANSLATE("Edit"), new BMessage(MAKE_EDITABLE));
+	BButton* cancel = new BButton(B_TRANSLATE("Cancel"), new BMessage(B_CANCEL));
+	BButton* ok = new BButton(B_TRANSLATE("Ok"), new BMessage(B_OK));
+	ok->MakeDefault(true);
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.Add(layout)
 		.AddGroup(B_HORIZONTAL)
-			.AddGlue()
 			.Add(edit)
+			.AddGlue()
 			.Add(cancel)
+			.Add(ok)
 		.End()
 	.End();
 
@@ -95,7 +102,7 @@ void KAKeyWindow::MessageReceived(BMessage* msg){
 				if(hidden){
 					password->TextView()->HideTyping(false);
 					password->SetText(((BPasswordKey*)key)->Password());
-					showPwButton->SetLabel("Hide");
+					showPwButton->SetLabel(B_TRANSLATE("Hide"));
 				} else {
 					password->TextView()->HideTyping(true);
 					BString pwasterisks;
