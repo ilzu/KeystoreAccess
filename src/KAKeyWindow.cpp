@@ -8,8 +8,6 @@
 #include <TextControl.h>
 #include <Button.h>
 
-#include <iostream>
-
 #include "KAKeyWindow.h"
 
 KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(frame, title, B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS){
@@ -25,9 +23,10 @@ KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(fra
 				secondaryIdentifier->SetEnabled(false);
 				password = new BTextControl("Password", "", NULL);
 				password->TextView()->HideTyping(true);
-				password->SetText(((BPasswordKey*)this->key)->Password());
+				BString pwasterisks;
+				pwasterisks.SetToFormat("%*d", 12, 0);
+				password->SetText(pwasterisks);
 				password->SetEnabled(false);
-				std::cout << "pw: " << password->Text() << " key.pw() " << ((BPasswordKey*)key)->Password() << std::endl;
 				showPwButton = new BButton("Show", new BMessage(SHOW_PASSWORD));
 				creationTime = new BTextControl("Creation time", "", NULL);
 				creationTime->SetEnabled(false);
@@ -96,10 +95,12 @@ void KAKeyWindow::MessageReceived(BMessage* msg){
 				if(hidden){
 					password->TextView()->HideTyping(false);
 					password->SetText(((BPasswordKey*)key)->Password());
-					std::cout << "pw: " << password->Text() << " key->Password() " << ((BPasswordKey*)key)->Password() << std::endl;
 					showPwButton->SetLabel("Hide");
 				} else {
 					password->TextView()->HideTyping(true);
+					BString pwasterisks;
+					pwasterisks.SetToFormat("%*d", 12, 0);
+					password->SetText(pwasterisks);
 					showPwButton->SetLabel("Show");
 				}
 			}
