@@ -35,7 +35,6 @@ KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(fra
 				creationTime = new BTextControl(B_TRANSLATE("Creation time"), "", NULL);
 				creationTime->SetEnabled(false);
 				BLayoutBuilder::Group<>(layout, B_VERTICAL)
-					.SetInsets(B_USE_WINDOW_INSETS)
 					.AddGroup(B_HORIZONTAL)
 						.AddGroup(B_VERTICAL)
 							.Add(identifier->CreateLabelLayoutItem())
@@ -68,6 +67,7 @@ KAKeyWindow::KAKeyWindow(BRect frame, const char* title, BKey* key) :BWindow(fra
 	ok->MakeDefault(true);
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(B_USE_WINDOW_INSETS)
 		.Add(layout)
 		.AddGroup(B_HORIZONTAL)
 			.Add(edit)

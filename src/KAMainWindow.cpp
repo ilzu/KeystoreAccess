@@ -7,8 +7,6 @@
 #include <MenuBar.h>
 #include <Menu.h>
 #include <ScrollView.h>
-#include <OutlineListView.h>
-#include <ColumnListView.h>
 #include <ColumnTypes.h>
 #include <KeyStore.h>
 #include <Catalog.h>
@@ -18,16 +16,18 @@
 #include "KAMainWindow.h"
 #include "KAApplication.h"
 #include "KAKeyWindow.h"
+#include "KeyringListView.h"
+#include "KeyListView.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
 
 KAMainWindow::KAMainWindow(BRect frame) :BWindow(frame, "KeyStore Access", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS){
 	BMenuBar* menuBar = new BMenuBar("menuBar");
-	keyringList = new BOutlineListView("keyringList");
+	keyringList = new KeyringListView();
 	keyringList->SetSelectionMessage(new BMessage(KEY_RING_LIST_ITEM_CHANGED));
 	BScrollView* keyringScroll = new BScrollView("keyringScroll", keyringList, false, true, B_FANCY_BORDER);
-	keyList = new BColumnListView("keyList", B_WILL_DRAW, B_FANCY_BORDER);
+	keyList = new KeyListView();
 	keyList->SetSelectionMessage(new BMessage(KEY_LIST_ITEM_CHANGED));
 	keyList->SetInvocationMessage(new BMessage(KEY_LIST_INVOCATE));
 	keyStore = new BKeyStore;
@@ -66,6 +66,7 @@ KAMainWindow::KAMainWindow(BRect frame) :BWindow(frame, "KeyStore Access", B_TIT
 	keyList->SetTarget(this);
 
 	UpdateKeyList(keyRing);
+	keyList->MakeFocus(true);
 }
 
 KAMainWindow::~KAMainWindow(){

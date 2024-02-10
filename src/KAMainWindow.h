@@ -9,8 +9,8 @@
 #include <Window.h>
 
 class BSplitView;
-class BOutlineListView;
-class BColumnListView;
+class KeyringListView;
+class KeyListView;
 class BKeyStore;
 
 class KAMainWindow : public BWindow{
@@ -22,8 +22,8 @@ class KAMainWindow : public BWindow{
 	private:
 		void UpdateKeyList(const char* keyring = NULL);
 		BSplitView* split;
-		BColumnListView* keyList;
-		BOutlineListView* keyringList;
+		KeyListView* keyList;
+		KeyringListView* keyringList;
 		BKeyStore* keyStore;
 		enum{
 			KEY_RING_LIST_ITEM_CHANGED = 'krlc',
